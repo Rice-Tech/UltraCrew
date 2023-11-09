@@ -2,4 +2,16 @@
 
 {% block content %}
     <h3>TODO add page to add a race</h3>
+    <form action="{% url 'runner:addRace' %}" method="POST">
+        {% csrf_token %}
+        {{raceform.as_p}}
+        {% for stationForm in raceform.stations %}
+            {{ stationForm.as_table }}
+            <br>
+        {% endfor %}
+        <button type="button" id="addStation">Add Aid Station</button>
+        <input type="submit" value="Create Race">
+    </form> 
+    {% load static %}
+    <script src="{% static 'runner/addRace.js'%}"></script>
 {% endblock %}

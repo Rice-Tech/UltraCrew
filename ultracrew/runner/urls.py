@@ -9,4 +9,5 @@ urlpatterns = [
     path("dashboard/", views.dashboard, name="dashboard/"),
     path("dashboard", views.dashboard, name="dashboard"),
     path("<str:name>",views.runnerPage, name="runnerPage"),
+    path("", views.homepage, name="homepage"),
 ]
