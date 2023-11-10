@@ -26,3 +26,5 @@ class AidStationForm(ModelForm):
     class Meta:
         model: AidStation
         fields: ['name', 'distance']
+
+StationForms = modelformset_factory(AidStation, AidStationForm, fields= ['name', 'distance'], extra=1, max_num=20)

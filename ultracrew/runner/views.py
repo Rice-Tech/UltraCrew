@@ -1,12 +1,32 @@
 from django.shortcuts import render, redirect
 from django.forms import modelformset_factory
-from .models import AidStation
-from .forms import RaceForm, RaceRegistrationForm, AidStationForm
+from .models import Race, AidStation, RaceRegistration
+from .forms import RaceForm, RaceRegistrationForm, AidStationForm, StationForms
+from django.views.generic import ListView, TemplateView
 
 #https://nadchif.github.io/html-duration-picker.js/
 #https://www.brennantymrak.com/articles/django-dynamic-formsets-javascript
 
-StationForms = modelformset_factory(AidStation, AidStationForm, fields= ['name', 'distance'], extra=1, max_num=20)
+
+class StationListView(ListView):
+    model = AidStation
+    template_name = "runner/station_list.html"
+
+
+class StationAddView(TemplateView):
+    template_name = "runner/add_station.html"
+
+    def get(self, *args, **kwargs):
+        formset = StationForms(queryset=AidStation.objects.none())
+        return self.render_to_response({'station_formset': formset})
+    
+    def post(self, *args, **kwargs):
+        formset = StationForms(data=self.request.POST)
+
+        if formset.is_valid():
+            formset.save()
+            return redirect()
+        return self.render_to_response({'station_formset': formset})
 
 # views
 
