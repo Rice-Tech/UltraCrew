@@ -1,34 +1,12 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
-from django import forms
-from django.forms import ModelForm, modelformset_factory
-from .models import Race, AidStation, RaceRegistration
+from django.forms import modelformset_factory
+from .models import AidStation
+from .forms import RaceForm, RaceRegistrationForm, AidStationForm
 
-
+#https://nadchif.github.io/html-duration-picker.js/
 #https://www.brennantymrak.com/articles/django-dynamic-formsets-javascript
 
-class RaceForm(ModelForm):
-    class Meta:
-        model = Race
-        fields = ['name', 'date']
-
-class RaceRegistrationForm(ModelForm):
-    class Meta:
-        model = RaceRegistration
-        fields = ['minPace', 'maxPace', 'goalTime', 'crew']
-
-
-class AidStationForm(ModelForm):
-    class Meta:
-        model: AidStation
-        fields: ['name', 'distance']
-
 StationForms = modelformset_factory(AidStation, AidStationForm, fields= ['name', 'distance'], extra=1, max_num=20)
-
-class FullForm(forms.Form):
-    race = RaceForm()
-    raceRegistration = RaceRegistrationForm()
-    stations = StationForms(prefix="station")
 
 # views
 
@@ -41,14 +19,27 @@ def runnerPage(request, name):
 def addRace(request):
     if request.method == "POST":
         #Validate data and rearange to desired format
-        raceform = FullForm(request.POST, prefix='raceform')
-        if raceform.is_valid():
-            return redirect("/runner/" + raceform.name)
+        #fullForm = FullForm(request.POST, prefix='fullForm')
+        raceform = RaceForm(request.POST, prefix="race")
+        regform = RaceRegistrationForm(request.POST, prefix="reg")
+        stationforms = StationForms(request.POST, prefix="station")
+        if raceform.is_valid() and regform.is_valid and stationforms.is_valid:
+            if raceform.is_valid():
+                print(raceform.cleaned_data['name'])
+            else:
+                print("Invalid!!!")
+                #fullForm.race = raceform
+            #print(raceform)
+            #return redirect("/runner/" + raceform.name)
         
     else:
-        raceform = FullForm(prefix='raceform')    
+        raceform = RaceForm(prefix="race")
+        regform = RaceRegistrationForm(prefix="reg")
+        stationforms = StationForms(prefix="station")
+        
+        #fullForm = FullForm(prefix='fullForm')    
 
-    return render(request, "runner/addRace.html", {"raceform":raceform})
+    return render(request, "runner/addRace.html", {"raceform":raceform, "regform":regform, "stationforms":stationforms})
 
 def homepage(request):
     return render(request, "home.html")

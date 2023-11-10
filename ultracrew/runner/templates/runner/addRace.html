@@ -5,8 +5,9 @@
     <form action="{% url 'runner:addRace' %}" method="POST">
         {% csrf_token %}
         {{raceform.as_p}}
-        {% for stationForm in raceform.stations %}
-            {{ stationForm.as_table }}
+        {{regform.as_p}}
+        {% for station in stationforms %}
+            {{ station.as_table }}
             <br>
         {% endfor %}
         <button type="button" id="addStation">Add Aid Station</button>
@@ -14,4 +15,5 @@
     </form> 
     {% load static %}
     <script src="{% static 'runner/addRace.js'%}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@latest/dist/html-duration-picker.min.js"></script>
 {% endblock %}
