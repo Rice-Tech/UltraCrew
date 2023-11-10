@@ -6,6 +6,8 @@
         {% csrf_token %}
         {{raceform.as_p}}
         {{regform.as_p}}
+
+        {{stationforms.management_form}}
         {% for station in stationforms %}
             {{ station.as_table }}
             <br>
