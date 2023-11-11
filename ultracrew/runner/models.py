@@ -13,7 +13,7 @@ class Race(models.Model):
 class AidStation(models.Model):
     name = models.CharField(max_length=64)
     distance = models.FloatField()
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="stations")
 
 class Checkpoints(models.Model):
     time = models.TimeField()
@@ -21,8 +21,8 @@ class Checkpoints(models.Model):
     station = models.ForeignKey(AidStation, on_delete=models.CASCADE)
 
 class RaceRegistration(models.Model):
-    participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name="participant")
-    crew = models.ManyToManyField(User, related_name="crew")
+    participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name="races")
+    crew = models.ManyToManyField(User, related_name="crew_races")
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     minPace = models.DurationField() #pace in minutes per mile
     maxPace = models.DurationField()

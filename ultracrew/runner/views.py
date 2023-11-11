@@ -3,6 +3,10 @@ from django.forms import modelformset_factory
 from .models import Race, AidStation, RaceRegistration
 from .forms import RaceForm, RaceRegistrationForm, AidStationForm#, StationFormSet
 from django.views.generic import ListView, TemplateView
+from django.conf import settings
+from django.contrib.auth.models import User
+
+#User = settings.AUTH_USER_MODEL
 
 #https://nadchif.github.io/html-duration-picker.js/
 #https://www.brennantymrak.com/articles/django-dynamic-formsets-javascript
@@ -34,7 +38,21 @@ def dashboard(request):
     return render(request, "runner/dashboard.html")
 
 def runnerPage(request, name):
-    return render(request, "runner/runnerPage.html", {'name':name})
+    # TODO authentication
+    participant = get_user(name)
+    if participant == None:
+        return render(request, "runner/dashboard.html")
+  
+    registrations = participant.races.all()
+    races = []
+    for registration in registrations:
+        race ={"name": registration.race.name,
+               "date": registration.race.date, 
+               "stations":registration.race.stations.all()}
+       
+        print(race['stations'])
+        races.append(race) 
+    return render(request, "runner/runnerPage.html", {'name':name, 'races':races})
 
 def addRace(request):
     StationFormSet = modelformset_factory(AidStation, fields=['name', 'distance'], extra=3, max_num=20)
@@ -57,7 +75,7 @@ def addRace(request):
                 station.race = race
                 station.save()
                 print(station)
-            return HttpResponse("<h1>It might have actually worked?!?!</h1>")
+            return redirect("/runner/dashboard")
         else:
             print("Invalid!!!")
             print(regform.is_valid())
@@ -70,7 +88,7 @@ def addRace(request):
         
         raceform = RaceForm(prefix="race")
         regform = RaceRegistrationForm(prefix="reg")
-        stationforms = StationFormSet(prefix="station")
+        stationforms = StationFormSet(queryset=AidStation.objects.none(), prefix="station")
         
         #fullForm = FullForm(prefix='fullForm')    
 
@@ -78,3 +96,10 @@ def addRace(request):
 
 def homepage(request):
     return render(request, "home.html")
+
+def get_user(name):
+    try:
+        user = User.objects.get(username=name)
+    except User.DoesNotExist:
+        user = None
+    return user
