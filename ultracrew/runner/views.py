@@ -122,7 +122,13 @@ def addRace(request):
             registration = regform.save(commit=False)
             registration.race = race
             registration.participant =  request.user
+            # The Duck Debugger helped me with this code to turn usernames into users for the many to many field
             registration.save()
+            usernames = regform.cleaned_data['crew_usernames']
+            for username in usernames:
+                user = User.objects.get(username=username)  # get User instance
+                registration.crew.add(user)  # add User to crew
+
             stations = stationforms.save(commit=False)
             print(stations)
             for station in stations:
