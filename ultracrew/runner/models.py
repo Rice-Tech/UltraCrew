@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 User = settings.AUTH_USER_MODEL
 
@@ -15,9 +16,9 @@ class AidStation(models.Model):
     distance = models.FloatField()
     race = models.ForeignKey(Race, on_delete=models.CASCADE, related_name="stations")
 
-class Checkpoints(models.Model):
-    time = models.TimeField()
-    runner = models.ForeignKey(User, on_delete=models.CASCADE)
+class Checkpoint(models.Model):
+    time = models.DateTimeField(default=timezone.now)
+    runner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="checkpoints")
     station = models.ForeignKey(AidStation, on_delete=models.CASCADE)
 
 class RaceRegistration(models.Model):

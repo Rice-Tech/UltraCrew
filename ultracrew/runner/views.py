@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.forms import modelformset_factory
-from .models import Race, AidStation, RaceRegistration
+from .models import Race, AidStation, RaceRegistration, Checkpoint
 from .forms import RaceForm, RaceRegistrationForm, AidStationForm#, StationFormSet
 from django.views.generic import ListView, TemplateView
 from django.conf import settings
 from django.contrib.auth.models import User
+import time
 
 #User = settings.AUTH_USER_MODEL
 
@@ -40,17 +41,50 @@ def dashboard(request):
 def runnerPage(request, name):
     # TODO authentication
     participant = get_user(name)
+    #recieve a logged checkpoint
+    if request.method == "POST":
+        try: 
+            checkpoint = Checkpoint(runner=participant, station = AidStation.objects.get(pk = request.POST["station"]))
+            poster = request.user
+        except:
+            print("error")
+        else:
+            checkpoint.save()
+        return redirect(request.META.get('HTTP_REFERER'))
+
     if participant == None:
         return render(request, "runner/dashboard.html")
   
     registrations = participant.races.all()
     races = []
     for registration in registrations:
+
+        # find logged checkpoints at aid stations of the given race
+
+        stations = registration.race.stations.all()
+        stationsLog = []
+        for station in stations:
+            thisStationLog = {"station": station, "time": None, "prediction": None}
+            if participant.checkpoints.filter(station=station).exists():
+                thisStationLog["time"] = participant.checkpoints.get(station=station).time
+            stationsLog.append(thisStationLog)
+        
+        # Calculate predicted times based on pace between last two aid stations, if available
+        pace = None
+        lastDistance = None
+        lastTime = None
+        for i in range(len(stationsLog)-1):
+            if (not stationsLog[i]["time"] is None) and (not stationsLog[i+1]["time"] is None):
+                pace = (stationsLog[i+1]["time"] - stationsLog[i]["time"]) / (stationsLog[i+1]["station"].distance - stationsLog[i]["station"].distance)
+                lastDistance = stationsLog[i+1]["station"].distance 
+                lastTime = stationsLog[i+1]["time"]
+            elif not pace is None:
+                stationsLog[i+1]["prediction"] = (pace * (stationsLog[i+1]["station"].distance - lastDistance)) + lastTime
         race ={"name": registration.race.name,
                "date": registration.race.date, 
-               "stations":registration.race.stations.all()}
-       
-        print(race['stations'])
+               "stationsLog": stationsLog
+        }
+        
         races.append(race) 
     return render(request, "runner/runnerPage.html", {'name':name, 'races':races})
 

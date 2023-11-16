@@ -1,4 +1,5 @@
 {% extends 'layout.html'%}
+{% load tz %}
 
 {% block content %}
     <h2>Welcome to {{name}}'s page!</h3>
@@ -12,17 +13,33 @@
                   <th scope="col">#</th>
                   <th scope="col">Aid Station</th>
                   <th scope="col">Distance</th>
+                  <th scope="col">Logged Time</th>
                   <th scope="col">Predicted Time</th>
-                  <th scope="col">Log</th>
                 </tr>
             </thead>
             <tbody>
-                {% for station in race.stations%}
+                {% for stationLog in race.stationsLog%}
                     <tr>
                         <th scope="row">{{forloop.counter}}</th>
-                        <td>{{station.name}}</td>
-                        <td>{{station.distance}}</td>
-                        <td>1 hr</td>
+                        <td>{{stationLog.station.name}}</td>
+                        <td>{{stationLog.station.distance}}</td>
+                        <td>
+                            {% if not stationLog.time is None %}
+                                {% localtime on %}
+                                    {{stationLog.time}}
+                                {% endlocaltime %}
+                            {% elif True %}
+                            <!--TODO Confirm that user is crew-->
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" value="{{stationLog.station.id}}" name="station">Log {{stationLog.station.name}}</button>
+                                </form>
+
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{stationLog.prediction}}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

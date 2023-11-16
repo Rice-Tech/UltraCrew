@@ -1,7 +1,7 @@
 {% extends 'layout.html'%}
 
 {% block content %}
-    <h3>TODO add page to add a race</h3>
+    <h3>Add a Race</h3>
     <form action="{% url 'runner:addRace' %}" method="POST">
         {% csrf_token %}
         {{raceform.as_p}}
