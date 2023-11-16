@@ -1,9 +1,26 @@
 body{
     background-image: url("runnerbg.jpeg");
     background-size: cover;
-    background-position: center;
+    color:#053000;
 }
 main{
-    background-color: rgba(253, 228, 179, 0.9);
+    background-color: #fff6e4e6;
     padding: 2em;
+}
+.divider{
+    height: 2px;
+    width: 100%;
+    background-color: #053000;
+    margin: 1em auto;
+}
+footer{
+    background-color: whitesmoke;
+    align-items: center;
+    text-justify: center;
+    padding: 1em;
+    width:100%;
+    margin: auto;
+}
+a{
+    color: forestgreen;
 }

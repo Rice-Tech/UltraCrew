@@ -2,11 +2,11 @@
 {% load tz %}
 
 {% block content %}
-    <h2>Welcome to {{name}}'s page!</h3>
+    <h3>View {{name}}'s Races</h3>
 
-
+    <div class="divider"></div>
     {% for race in races%}
-        <h3>{{race.registration.race.name}}, {{race.registration.race.date}}</h3>
+        <h4>{{race.registration.race.name}}, {{race.registration.race.date}}</h4>
         <table class="table table-striped">
             <thead>
                 <tr>

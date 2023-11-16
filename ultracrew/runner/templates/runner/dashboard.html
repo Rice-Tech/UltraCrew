@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>Dashboard</h3>
+    <div class="divider"></div>
     <ul>
     {% for crewRace in crewRaces%}
         <li>Crewing {{crewRace.race.name}} for <a href="/runner/{{crewRace.participant}}">{{crewRace.participant}}</a> on {{crewRace.race.date}}</li>

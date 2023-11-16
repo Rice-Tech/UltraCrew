@@ -2,6 +2,7 @@
 
 {% block content %}
     <h3>Add a Race</h3>
+    <div class="divider"></div>
     <form action="{% url 'runner:addRace' %}" method="POST">
         {% csrf_token %}
         {{raceform.as_p}}
