@@ -76,11 +76,11 @@ def runnerPage(request, name):
     for registration in registrations:
 
         # find logged checkpoints at aid stations of the given race
-
+        isCrewOrSelf = registration.crew.filter(id = request.user.id).exists() or request.user == participant
         stations = registration.race.stations.all()
         stationsLog = []
         for station in stations:
-            thisStationLog = {"station": station, "time": None, "prediction": None}
+            thisStationLog = {"station": station, "time": None, "prediction": None, "authorized": isCrewOrSelf}
             if participant.checkpoints.filter(station=station).exists():
                 thisStationLog["time"] = participant.checkpoints.get(station=station).time
             stationsLog.append(thisStationLog)
@@ -96,13 +96,14 @@ def runnerPage(request, name):
                 lastTime = stationsLog[i+1]["time"]
             elif not pace is None:
                 stationsLog[i+1]["prediction"] = (pace * (stationsLog[i+1]["station"].distance - lastDistance)) + lastTime
-        race ={"name": registration.race.name,
-               "date": registration.race.date, 
-               "stationsLog": stationsLog
+        race ={
+               "registration": registration,
+               "stationsLog": stationsLog,
+                
         }
         
         races.append(race) 
-    return render(request, "runner/runnerPage.html", {'name':name, 'races':races})
+    return render(request, "runner/runnerPage.html", {'name':name, 'races':races, 'requester': request.user})
 
 def addRace(request):
     StationFormSet = modelformset_factory(AidStation, fields=['name', 'distance'], extra=3, max_num=20)

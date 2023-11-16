@@ -6,7 +6,7 @@
 
 
     {% for race in races%}
-        <h3>{{race.name}}, {{race.date}}</h3>
+        <h3>{{race.registration.race.name}}, {{race.registration.race.date}}</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -28,7 +28,7 @@
                                 {% localtime on %}
                                     {{stationLog.time}}
                                 {% endlocaltime %}
-                            {% elif stationLog.station.race %}
+                            {% elif stationLog.authorized %}
                             <!--TODO Confirm that user is crew-->
                                 <form action="" method="POST">
                                     {% csrf_token %}
