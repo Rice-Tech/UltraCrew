@@ -1,5 +1,10 @@
 {% extends 'layout.html'%}
 
 {% block content %}
-    <h3>TODO add user dashboard</h3>
+    <h3>Dashboard</h3>
+    <ul>
+    {% for crewRace in crewRaces%}
+        <li>Crewing {{crewRace.race.name}} for <a href="/runner/{{crewRace.participant}}">{{crewRace.participant}}</a> on {{crewRace.race.date}}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

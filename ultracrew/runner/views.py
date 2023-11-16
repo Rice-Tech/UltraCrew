@@ -37,7 +37,10 @@ class StationAddView(TemplateView):
 # views
 
 def dashboard(request):
-    return render(request, "runner/dashboard.html")
+    if not request.user.is_authenticated:
+        return redirect("/accounts/login")
+    crewRaces = request.user.crew_races.all()
+    return render(request, "runner/dashboard.html", {"crewRaces":crewRaces})
 
 def runnerPage(request, name):
     # TODO authentication
@@ -103,7 +106,7 @@ def runnerPage(request, name):
         }
         
         races.append(race) 
-    return render(request, "runner/runnerPage.html", {'name':name, 'races':races, 'requester': request.user})
+    return render(request, "runner/runnerPage.html", {'name':name, 'races':races})
 
 def addRace(request):
     StationFormSet = modelformset_factory(AidStation, fields=['name', 'distance'], extra=3, max_num=20)
