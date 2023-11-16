@@ -1,0 +1,9 @@
+body{
+    background-image: url("runnerbg.jpeg");
+    background-size: cover;
+    background-position: center;
+}
+main{
+    background-color: rgba(253, 228, 179, 0.9);
+    padding: 2em;
+}
