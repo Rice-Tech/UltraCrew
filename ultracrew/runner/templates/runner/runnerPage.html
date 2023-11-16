@@ -28,7 +28,7 @@
                                 {% localtime on %}
                                     {{stationLog.time}}
                                 {% endlocaltime %}
-                            {% elif True %}
+                            {% elif stationLog.station.race %}
                             <!--TODO Confirm that user is crew-->
                                 <form action="" method="POST">
                                     {% csrf_token %}

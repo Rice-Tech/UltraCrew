@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.http import HttpResponseForbidden
 from django.forms import modelformset_factory
 from .models import Race, AidStation, RaceRegistration, Checkpoint
 from .forms import RaceForm, RaceRegistrationForm, AidStationForm#, StationFormSet
@@ -46,19 +47,25 @@ def runnerPage(request, name):
         #try: 
         checkpoint = Checkpoint(runner=participant, station = AidStation.objects.get(pk = request.POST["station"]))
         poster = request.user
+        
+        # Distinguish between loggers and only allow self or crew to log aid stations
         if checkpoint.runner.races.filter(race=checkpoint.station.race).exists():
             if checkpoint.runner.races.get(race=checkpoint.station.race).crew.filter(id = poster.id).exists():
-                print("Crew logged checkpoint")
+                # crew
+                checkpoint.save()
             elif poster == checkpoint.runner:
-                print("participant logged checkpoint")
+                # self 
+                checkpoint.save()
             else:
-                print("Unauthorized logging attempt!!!")
+                # unauthorized
+                return HttpResponseForbidden("You are not listed as crew for that runner. Please confirm that you are logged in and are viewing the correct runner.")
+
         else:
             print("nope")
         #except:
         #    print("error")
         #else:
-        checkpoint.save()
+        
         return redirect(request.META.get('HTTP_REFERER'))
 
     if participant == None:
