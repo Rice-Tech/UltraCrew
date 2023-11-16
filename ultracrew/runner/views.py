@@ -43,13 +43,22 @@ def runnerPage(request, name):
     participant = get_user(name)
     #recieve a logged checkpoint
     if request.method == "POST":
-        try: 
-            checkpoint = Checkpoint(runner=participant, station = AidStation.objects.get(pk = request.POST["station"]))
-            poster = request.user
-        except:
-            print("error")
+        #try: 
+        checkpoint = Checkpoint(runner=participant, station = AidStation.objects.get(pk = request.POST["station"]))
+        poster = request.user
+        if checkpoint.runner.races.filter(race=checkpoint.station.race).exists():
+            if checkpoint.runner.races.get(race=checkpoint.station.race).crew.filter(id = poster.id).exists():
+                print("Crew logged checkpoint")
+            elif poster == checkpoint.runner:
+                print("participant logged checkpoint")
+            else:
+                print("Unauthorized logging attempt!!!")
         else:
-            checkpoint.save()
+            print("nope")
+        #except:
+        #    print("error")
+        #else:
+        checkpoint.save()
         return redirect(request.META.get('HTTP_REFERER'))
 
     if participant == None:
