@@ -21,6 +21,19 @@ footer{
     width:100%;
     margin: auto;
 }
+
 a{
     color: forestgreen;
+}
+#raceForm{
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+form{
+    margin: 0 auto;
+}
+h3{
+    text-align: center;
+    margin: 0 auto;
 }

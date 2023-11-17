@@ -45,6 +45,9 @@ def dashboard(request):
 def runnerPage(request, name):
     # TODO authentication
     participant = get_user(name)
+    if participant == None:
+        return render(request, "runner/dashboard.html")
+    
     #recieve a logged checkpoint
     if request.method == "POST":
         #try: 
@@ -71,10 +74,10 @@ def runnerPage(request, name):
         
         return redirect(request.META.get('HTTP_REFERER'))
 
-    if participant == None:
-        return render(request, "runner/dashboard.html")
-  
-    registrations = participant.races.all()
+    
+    # For GET
+     
+    registrations = participant.races.all().order_by("race__date")
     races = []
     for registration in registrations:
 

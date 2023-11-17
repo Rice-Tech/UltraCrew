@@ -7,7 +7,7 @@
     <div class="divider"></div>
     {% for race in races%}
         <h4>{{race.registration.race.name}}, {{race.registration.race.date}}</h4>
-        <table class="table table-striped">
+        <table class="table table-striped"> 
             <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -25,24 +25,43 @@
                         <td>{{stationLog.station.distance}}</td>
                         <td>
                             {% if not stationLog.time is None %}
-                                {% localtime on %}
-                                    {{stationLog.time}}
-                                {% endlocaltime %}
+                                <span class='gmtime'>{{stationLog.time|date:'c'}}</span>
                             {% elif stationLog.authorized %}
                             <!--TODO Confirm that user is crew-->
                                 <form action="" method="POST">
                                     {% csrf_token %}
-                                    <button type="submit" value="{{stationLog.station.id}}" name="station">Log {{stationLog.station.name}}</button>
+                                    <button type="submit" value="{{stationLog.station.id}}" name="station" onclick="return confirm('Confirm logging {{stationLog.station.name}}?')">Log {{stationLog.station.name}} </button>
                                 </form>
 
                             {% endif %}
                         </td>
                         <td>
-                            {{stationLog.prediction}}
+                            <span class="gmtime">{{stationLog.prediction|date:'c'}}</span>
                         </td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% endfor %}
+    <script>
+        // Convert GM Time to Local Time on the Client Side
+        window.onload = function() {
+            timeElements = document.getElementsByClassName("gmtime");
+            for (const timeElement of timeElements)
+            {
+                var gmTime = timeElement.innerHTML;
+                var date= new Date(gmTime);
+                const options = {
+                    month: 'numeric',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric'
+                  };
+                  
+                var localTime = date.toLocaleDateString('en-US', options);
+                console.log(gmTime + " to " + localTime);
+                timeElement.innerHTML = localTime;
+            }
+        }
+    </script>
 {% endblock %}

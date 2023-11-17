@@ -3,19 +3,21 @@
 {% block content %}
     <h3>Add a Race</h3>
     <div class="divider"></div>
-    <form action="{% url 'runner:addRace' %}" method="POST">
-        {% csrf_token %}
-        {{raceform.as_p}}
-        {{regform.as_p}}
+    <div id="raceForm">
+        <form action="{% url 'runner:addRace' %}" method="POST">
+            {% csrf_token %}
+            {{raceform.as_p}}
+            {{regform.as_p}}
 
-        {{stationforms.management_form}}
-        {% for station in stationforms %}
-            {{ station.as_table }}
-            <br>
-        {% endfor %}
-        <button type="button" id="addStation">Add Aid Station</button>
-        <input type="submit" value="Create Race">
-    </form> 
+            {{stationforms.management_form}}
+            {% for station in stationforms %}
+                {{ station.as_table }}
+                <br>
+            {% endfor %}
+            <button type="button" id="addStation">Add Aid Station</button>
+            <input type="submit" value="Create Race">
+        </form> 
+    </div>
     {% load static %}
     <script src="{% static 'runner/addRace.js'%}"></script>
     <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@latest/dist/html-duration-picker.min.js"></script>
