@@ -66,8 +66,11 @@
                   };
                   
                 var localTime = date.toLocaleDateString('en-US', options);
-                console.log(gmTime + " to " + localTime);
-                timeElement.innerHTML = localTime;
+                if(localTime != "Invalid Date")
+                {
+                    timeElement.innerHTML = localTime;
+                }
+                
             }
         }
     </script>
