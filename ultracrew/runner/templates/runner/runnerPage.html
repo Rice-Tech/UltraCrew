@@ -6,42 +6,49 @@
 
     <div class="divider"></div>
     {% for race in races%}
-        <h4>{{race.registration.race.name}}, {{race.registration.race.date}}</h4>
-        <table class="table table-striped"> 
-            <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Aid Station</th>
-                  <th scope="col">Distance</th>
-                  <th scope="col">Logged Time</th>
-                  <th scope="col">Predicted Time</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for stationLog in race.stationsLog%}
+        
+        
+        <h4>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse{{race.registration.id}}" role="button" aria-expanded="false" aria-controls="Collapse{{race.registration.race.name}}">Show</a>
+            {{race.registration.race.name}}, {{race.registration.race.date}}
+        </h4>
+        <div class="collapse" id="collapse{{race.registration.id}}">
+            <table class="table table-striped"> 
+                <thead>
                     <tr>
-                        <th scope="row">{{forloop.counter}}</th>
-                        <td>{{stationLog.station.name}}</td>
-                        <td>{{stationLog.station.distance}}</td>
-                        <td>
-                            {% if not stationLog.time is None %}
-                                <span class='gmtime'>{{stationLog.time|date:'c'}}</span>
-                            {% elif stationLog.authorized %}
-                            <!--TODO Confirm that user is crew-->
-                                <form action="" method="POST">
-                                    {% csrf_token %}
-                                    <button type="submit" value="{{stationLog.station.id}}" name="station" onclick="return confirm('Confirm logging {{stationLog.station.name}}?')">Log {{stationLog.station.name}} </button>
-                                </form>
-
-                            {% endif %}
-                        </td>
-                        <td>
-                            <span class="gmtime">{{stationLog.prediction|date:'c'}}</span>
-                        </td>
+                    <th scope="col">#</th>
+                    <th scope="col">Aid Station</th>
+                    <th scope="col">Distance</th>
+                    <th scope="col">Logged Time</th>
+                    <th scope="col">Predicted Time</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for stationLog in race.stationsLog%}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{stationLog.station.name}}</td>
+                            <td>{{stationLog.station.distance}}</td>
+                            <td>
+                                {% if not stationLog.time is None %}
+                                    <span class='gmtime'>{{stationLog.time|date:'c'}}</span>
+                                {% elif stationLog.authorized %}
+                                <!--TODO Confirm that user is crew-->
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" value="{{stationLog.station.id}}" name="station" onclick="return confirm('Confirm logging {{stationLog.station.name}}?')">Log {{stationLog.station.name}} </button>
+                                    </form>
+
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="gmtime">{{stationLog.prediction|date:'c'}}</span>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% endfor %}
     <script>
         // Convert GM Time to Local Time on the Client Side
