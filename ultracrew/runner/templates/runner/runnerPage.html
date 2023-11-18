@@ -72,7 +72,6 @@
                     timeElement.innerHTML = localTime;
                 }
             }
-            console.log("Hello");
 
             // Retain collapse states of races in local storage.
             let buttons = document.querySelectorAll('.collapseButton')
@@ -89,7 +88,6 @@
                         button.innerHTML = "Hide";
                     }
                 button.onclick = function() {
-                    console.log("Hello" + button.href);
                     if (button.innerHTML === "Show")
                     {
                         button.innerHTML = "Hide";
@@ -126,7 +124,6 @@
         }
         function getStatus(collapseElement){
             const isCollapsed = getCollapsed(collapseElement);
-            console.log(collapseElement);
             if(isCollapsed){
                 collapseElement.classList.remove('show');
             }else{
@@ -134,7 +131,6 @@
             }
         }
         function toggleCollapse(collapseElement){
-            console.log(collapseElement);
             const isCollapsed = getCollapsed(collapseElement);
             if(isCollapsed){
                 localStorage.setItem(collapseElement.id, 'un-collapsed');

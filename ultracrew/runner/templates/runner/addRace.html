@@ -19,6 +19,7 @@
                 {% endfor %}
             </div>
             <button type="button" id="addStationButton">Add Aid Station</button>
+            <button type="button" id="removeStationButton">Remove Aid Station</button>
             <input type="submit" value="Create Race">
         </form> 
     </div>
@@ -37,6 +38,20 @@
                 recursiveIdNameForReplace(newForm, idFragment+(curNumForms-1), idFragment+(curNumForms))
                 existingForm.parentNode.appendChild(newForm);
                 totalFormsManager.value++;
+                var removeButton = document.getElementById("removeStationButton");
+                removeButton.style.display = this.style.display;
+            });
+            var removeButton = document.getElementById("removeStationButton");
+            removeButton.addEventListener('click', function() {
+                let totalFormsManager = document.getElementById(totalFormsID);
+                let curNumForms = totalFormsManager.value;
+                lastForm = document.getElementById(idFragment+(curNumForms-1));
+                lastForm.remove();
+                totalFormsManager.value--;
+                if (totalFormsManager.value < 2)
+                {
+                    this.style.display = 'none';
+                }
             });
         });
 
