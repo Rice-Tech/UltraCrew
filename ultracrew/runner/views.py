@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.urls import reverse
 from django.http import HttpResponseForbidden
 from django.forms import modelformset_factory
 from .models import Race, AidStation, RaceRegistration, Checkpoint
@@ -147,7 +148,7 @@ def addRace(request):
                 station.race = race
                 station.save()
                 print(station)
-            return redirect("/runner/"+ request.user.username)
+            return redirect("/runner/crew")
         else:
             print("Invalid!!!")
             print(regform.is_valid())
