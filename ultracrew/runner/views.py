@@ -147,8 +147,7 @@ def addRace(request):
             for station in stations:
                 station.race = race
                 station.save()
-                print(station)
-            return redirect("/runner/crew")
+            return redirect(reverse("runner:runnerPage", args= [request.user.username]))
         else:
             print("Invalid!!!")
             print(regform.is_valid())
