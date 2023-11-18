@@ -8,17 +8,63 @@
             {% csrf_token %}
             {{raceform.as_p}}
             {{regform.as_p}}
-
-            {{stationforms.management_form}}
-            {% for station in stationforms %}
-                {{ station.as_table }}
-                <br>
-            {% endfor %}
-            <button type="button" id="addStation">Add Aid Station</button>
+            <div id="aidStationForms">
+                <h4>Aid Stations</h4>
+                {{stationforms.management_form}}
+                {% for station in stationforms %}
+                    <div class="stationForm" id="station-{{ forloop.counter0 }}">
+                        {{ station.as_table }}
+                        <br>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="addStationButton">Add Aid Station</button>
             <input type="submit" value="Create Race">
         </form> 
     </div>
     {% load static %}
-    <script src="{% static 'runner/addRace.js'%}"></script>
+    <!-- <script src="{% static 'runner/addRace.js'%}"></script> -->
+    <script>
+        const totalFormsID = "id_station-TOTAL_FORMS";
+        console.log("Started Script")
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Started on load function")
+            var button = document.getElementById("addStationButton");
+            console.log(button);
+            button.addEventListener('click', function() {
+                let totalFormsManager = document.getElementById("id_station-TOTAL_FORMS");
+                let curNumForms = totalFormsManager.value;
+                existingForm = document.getElementById("station-"+(curNumForms-1));
+                newForm = existingForm.cloneNode(true);
+                recursiveIdNameForReplace(newForm, "station-"+(curNumForms-1), "station-"+(curNumForms))
+                existingForm.parentNode.appendChild(newForm);
+                totalFormsManager.value++;
+            });
+        });
+
+        function recursiveIdNameForReplace(node, oldString, newString)
+        {
+            node.id = node.id.replace(oldString, newString);
+            
+            if (node.for)
+            {
+                node.for = node.for.replace(oldString, newString);
+            }
+            
+            if (node.name)
+            {
+                node.name = node.name.replace(oldString, newString);
+            }
+
+            node.value = "";
+            children = node.children;
+            for (child of children)
+            {
+                recursiveIdNameForReplace(child, oldString, newString);
+            }
+            return
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/html-duration-picker@latest/dist/html-duration-picker.min.js"></script>
 {% endblock %}

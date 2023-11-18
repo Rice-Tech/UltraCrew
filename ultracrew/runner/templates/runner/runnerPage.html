@@ -74,7 +74,7 @@
             }
             console.log("Hello");
 
-            // Retain collapse states of races.
+            // Retain collapse states of races in local storage.
             let buttons = document.querySelectorAll('.collapseButton')
             buttons.forEach((button)=>{
                 let collapseElementID = button.href.split('#').pop();
@@ -107,11 +107,10 @@
             
         });
 
-            // Retain collapse states of races. 
-            // Based on https://stackoverflow.com/questions/58911249/maintain-colllapse-state-after-refresh
+        // Functions to retain collapse states of races. 
+        // Heavily modified but originally based on https://stackoverflow.com/questions/58911249/maintain-colllapse-state-after-refresh
 
         function getCollapsed(collapseElement) {
-            console.log("Hi!")
             try {
                 const state = localStorage.getItem(collapseElement.id);
                 if(state === 'un-collapsed'){
@@ -120,7 +119,6 @@
                 return true;
             }
             catch {
-                console.log("Hi!")
                 localStorage.setItem(collapseElement.id, 'collapsed');
                 return true;
             }
