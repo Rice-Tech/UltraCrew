@@ -1,5 +1,5 @@
 body{
-    background-image: url("runnerbg.jpeg");
+    background-image: url("img/runnerbg.jpeg");
     background-size: cover;
     color:#053000;
 }
@@ -16,7 +16,7 @@ main{
 footer{
     background-color: whitesmoke;
     align-items: center;
-    text-justify: center;
+    text-align: center;
     padding: 1em;
     width:100%;
     margin: auto;
@@ -43,4 +43,9 @@ h3{
 }
 .btn-primary:hover, .btn-primary:active{
     background-color: darkgreen;
+}
+img{
+    width: min(50%, 500px);
+    border-radius: 40px;
+    box-shadow: black 1px 1px 10px;
 }

@@ -36,17 +36,17 @@ class StationAddView(TemplateView):
 '''
 # views
 
-def dashboard(request):
+def crewPage(request):
     if not request.user.is_authenticated:
         return redirect("/accounts/login")
     crewRaces = request.user.crew_races.all()
-    return render(request, "runner/dashboard.html", {"crewRaces":crewRaces})
+    return render(request, "runner/crew.html", {"crewRaces":crewRaces})
 
 def runnerPage(request, name):
     # TODO authentication
     participant = get_user(name)
     if participant == None:
-        return render(request, "runner/dashboard.html")
+        return render(request, "runner/crew.html")
     
     #recieve a logged checkpoint
     if request.method == "POST":
@@ -147,7 +147,7 @@ def addRace(request):
                 station.race = race
                 station.save()
                 print(station)
-            return redirect("/runner/dashboard")
+            return redirect("")
         else:
             print("Invalid!!!")
             print(regform.is_valid())
