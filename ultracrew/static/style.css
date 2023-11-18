@@ -37,3 +37,10 @@ h3{
     text-align: center;
     margin: 0 auto;
 }
+.btn-primary{
+    background-color: forestgreen;
+    border: chartreuse;
+}
+.btn-primary:hover, .btn-primary:active{
+    background-color: darkgreen;
+}

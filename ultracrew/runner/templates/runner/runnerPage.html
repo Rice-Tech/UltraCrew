@@ -9,7 +9,7 @@
         
         
         <h4>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapse{{race.registration.id}}" role="button" aria-expanded="false" aria-controls="Collapse{{race.registration.race.name}}">Show</a>
+            <a class="btn btn-primary collapseButton" data-bs-toggle="collapse" href="#collapse{{race.registration.id}}" role="button" aria-expanded="false" aria-controls="Collapse{{race.registration.race.name}}">Show</a>
             {{race.registration.race.name}}, {{race.registration.race.date}}
         </h4>
         <div class="collapse" id="collapse{{race.registration.id}}">
@@ -72,6 +72,20 @@
                 }
                 
             }
+            /*
+            let buttons = document.querySelectorAll('collapseButton')
+            buttons.forEach((button)=>{
+                button.onClick()
+            })
+            
+            const collapseElements = document.querySelectorAll('collapse')
+            collapseElements.forEach((collapseElement)=> {
+                collapseElement.on("shown.bs.collapse", function(){
+                    localStorage.setItem(collapseElement.id, "show")
+                    console.log("Shown" + collapseElement.id);
+                });
+                
+            });*/
         }
     </script>
 {% endblock %}

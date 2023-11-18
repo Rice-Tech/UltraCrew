@@ -6,7 +6,7 @@ from .forms import RaceForm, RaceRegistrationForm, AidStationForm#, StationFormS
 from django.views.generic import ListView, TemplateView
 from django.conf import settings
 from django.contrib.auth.models import User
-import time
+import datetime
 
 #User = settings.AUTH_USER_MODEL
 
@@ -83,25 +83,34 @@ def runnerPage(request, name):
 
         # find logged checkpoints at aid stations of the given race
         isCrewOrSelf = registration.crew.filter(id = request.user.id).exists() or request.user == participant
-        stations = registration.race.stations.all()
+        stations = registration.race.stations.all().order_by('distance')
         stationsLog = []
         for station in stations:
-            thisStationLog = {"station": station, "time": None, "prediction": None, "authorized": isCrewOrSelf}
+            thisStationLog = {"station": station, "time": None, "prediction": None, "authorized": isCrewOrSelf, "splitPace": None}
             if participant.checkpoints.filter(station=station).exists():
                 thisStationLog["time"] = participant.checkpoints.get(station=station).time
             stationsLog.append(thisStationLog)
         
         # Calculate predicted times based on pace between last two aid stations, if available
         pace = None
-        lastDistance = None
-        lastTime = None
-        for i in range(len(stationsLog)-1):
-            if (not stationsLog[i]["time"] is None) and (not stationsLog[i+1]["time"] is None):
-                pace = (stationsLog[i+1]["time"] - stationsLog[i]["time"]) / (stationsLog[i+1]["station"].distance - stationsLog[i]["station"].distance)
-                lastDistance = stationsLog[i+1]["station"].distance 
-                lastTime = stationsLog[i+1]["time"]
-            elif not pace is None:
-                stationsLog[i+1]["prediction"] = (pace * (stationsLog[i+1]["station"].distance - lastDistance)) + lastTime
+        lastLog = None        
+        for i in range(len(stationsLog)):
+            thisLog = stationsLog[i]
+            if thisLog["time"]:
+                if lastLog:
+                    if(thisLog["time"] > lastLog["time"]):
+                        pace = (thisLog["station"].distance - lastLog["station"].distance) / ((thisLog["time"] - lastLog["time"]).total_seconds())
+                        stationsLog[i]["splitPace"] = pace
+                lastLog = thisLog
+            else:
+                if pace and lastLog:
+                    deltaSeconds = (thisLog["station"].distance - lastLog["station"].distance) / pace
+                    deltaTime = datetime.timedelta(seconds = deltaSeconds)
+                    stationsLog[i]["prediction"] = lastLog['time'] + deltaTime
+                    print(stationsLog[i])
+                    
+
+
         race ={
                "registration": registration,
                "stationsLog": stationsLog,
