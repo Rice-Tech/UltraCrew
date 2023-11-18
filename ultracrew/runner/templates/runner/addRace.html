@@ -26,18 +26,15 @@
     <!-- <script src="{% static 'runner/addRace.js'%}"></script> -->
     <script>
         const totalFormsID = "id_station-TOTAL_FORMS";
-        console.log("Started Script")
-
+        const idFragment = "station-"
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("Started on load function")
             var button = document.getElementById("addStationButton");
-            console.log(button);
             button.addEventListener('click', function() {
-                let totalFormsManager = document.getElementById("id_station-TOTAL_FORMS");
+                let totalFormsManager = document.getElementById(totalFormsID);
                 let curNumForms = totalFormsManager.value;
-                existingForm = document.getElementById("station-"+(curNumForms-1));
+                existingForm = document.getElementById(idFragment+(curNumForms-1));
                 newForm = existingForm.cloneNode(true);
-                recursiveIdNameForReplace(newForm, "station-"+(curNumForms-1), "station-"+(curNumForms))
+                recursiveIdNameForReplace(newForm, idFragment+(curNumForms-1), idFragment+(curNumForms))
                 existingForm.parentNode.appendChild(newForm);
                 totalFormsManager.value++;
             });
