@@ -147,7 +147,7 @@ def addRace(request):
                 station.race = race
                 station.save()
                 print(station)
-            return redirect("/")
+            return redirect("/runner/"+ request.user.username)
         else:
             print("Invalid!!!")
             print(regform.is_valid())
