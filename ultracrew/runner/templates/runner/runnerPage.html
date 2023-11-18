@@ -51,8 +51,9 @@
         </div>
     {% endfor %}
     <script>
-        // Convert GM Time to Local Time on the Client Side
-        window.onload = function() {
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // Convert GM Time to Local Time on the Client Side
             timeElements = document.getElementsByClassName("gmtime");
             for (const timeElement of timeElements)
             {
@@ -70,22 +71,80 @@
                 {
                     timeElement.innerHTML = localTime;
                 }
-                
             }
-            /*
-            let buttons = document.querySelectorAll('collapseButton')
+            console.log("Hello");
+
+            // Retain collapse states of races.
+            let buttons = document.querySelectorAll('.collapseButton')
             buttons.forEach((button)=>{
-                button.onClick()
+                let collapseElementID = button.href.split('#').pop();
+                let collapseElement = document.getElementById(collapseElementID);
+                getStatus(collapseElement);
+                if (getCollapsed(collapseElement))
+                    {
+                        button.innerHTML = "Show";
+                    }
+                    else
+                    {
+                        button.innerHTML = "Hide";
+                    }
+                button.onclick = function() {
+                    console.log("Hello" + button.href);
+                    if (button.innerHTML === "Show")
+                    {
+                        button.innerHTML = "Hide";
+                    }
+                    else
+                    {
+                        button.innerHTML = "Show";
+                    }
+                    // I can get the element id from the href, but it comes with the whole url, so this gets rid of the extra and leaves just the ID
+                    let collapseElementID = button.href.split('#').pop();
+                    let collapseElement = document.getElementById(collapseElementID);
+                    toggleCollapse(collapseElement);
+                }
             })
             
-            const collapseElements = document.querySelectorAll('collapse')
-            collapseElements.forEach((collapseElement)=> {
-                collapseElement.on("shown.bs.collapse", function(){
-                    localStorage.setItem(collapseElement.id, "show")
-                    console.log("Shown" + collapseElement.id);
-                });
-                
-            });*/
+        });
+
+            // Retain collapse states of races. 
+            // Based on https://stackoverflow.com/questions/58911249/maintain-colllapse-state-after-refresh
+
+        function getCollapsed(collapseElement) {
+            console.log("Hi!")
+            try {
+                const state = localStorage.getItem(collapseElement.id);
+                if(state === 'un-collapsed'){
+                    return false;
+                }
+                return true;
+            }
+            catch {
+                console.log("Hi!")
+                localStorage.setItem(collapseElement.id, 'collapsed');
+                return true;
+            }
+
         }
+        function getStatus(collapseElement){
+            const isCollapsed = getCollapsed(collapseElement);
+            console.log(collapseElement);
+            if(isCollapsed){
+                collapseElement.classList.remove('show');
+            }else{
+                collapseElement.classList.add('show');
+            }
+        }
+        function toggleCollapse(collapseElement){
+            console.log(collapseElement);
+            const isCollapsed = getCollapsed(collapseElement);
+            if(isCollapsed){
+                localStorage.setItem(collapseElement.id, 'un-collapsed');
+            }else{
+                localStorage.setItem(collapseElement.id, 'collapsed');
+            }
+            getStatus(collapseElement);
+        }
+        
     </script>
 {% endblock %}
