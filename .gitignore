@@ -4,3 +4,4 @@
 *.env
 ultracrew/db.sqlite3
 ultracrew/runner/migrations/*
+ultracrew/TODO.txt
