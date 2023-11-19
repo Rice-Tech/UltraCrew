@@ -30,6 +30,14 @@
         const totalFormsID = "id_station-TOTAL_FORMS";
         const idFragment = "station-"
         document.addEventListener('DOMContentLoaded', function() {
+
+            // Add some placeholder text to Aid Stations
+            document.getElementById("id_station-0-name").placeholder = "Start";
+            document.getElementById("id_station-0-distance").placeholder = "0";
+            document.getElementById("id_station-0-distance").value = "0";
+            document.getElementById("id_station-2-name").placeholder = "Finish";
+            document.getElementById("id_station-2-distance").placeholder = "eg. 50 Miles";
+
             var button = document.getElementById("addStationButton");
             button.addEventListener('click', function() {
                 let totalFormsManager = document.getElementById(totalFormsID);
@@ -37,7 +45,14 @@
                 existingForm = document.getElementById(idFragment+(curNumForms-1));
                 newForm = existingForm.cloneNode(true);
                 recursiveIdNameForReplace(newForm, idFragment+(curNumForms-1), idFragment+(curNumForms))
+                // Get rid of placeholders in penault
+
+                document.getElementById("id_"+idFragment+(curNumForms-1+"-name")).placeholder = "";
+                document.getElementById("id_"+idFragment+(curNumForms-1+"-distance")).placeholder = "";
+
                 existingForm.parentNode.appendChild(newForm);
+                document.getElementById("id_"+idFragment+(curNumForms+"-name")).placeholder = "Finish";
+                document.getElementById("id_"+idFragment+(curNumForms+"-distance")).placeholder = "eg. 50 miles";
                 totalFormsManager.value++;
                 var removeButton = document.getElementById("removeStationButton");
                 removeButton.style.display = this.style.display;
@@ -53,6 +68,8 @@
                 {
                     this.style.display = 'none';
                 }
+                document.getElementById("id_"+idFragment+(curNumForms-2+"-name")).placeholder = "Finish";
+                document.getElementById("id_"+idFragment+(curNumForms-2+"-distance")).placeholder = "eg. 50 miles";
             });
         });
 

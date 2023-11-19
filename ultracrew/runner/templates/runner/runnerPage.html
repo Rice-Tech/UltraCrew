@@ -21,6 +21,7 @@
                     <th scope="col">Distance</th>
                     <th scope="col">Logged Time</th>
                     <th scope="col">Predicted Time</th>
+                    <th scope="col">Goal Time</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,6 +44,9 @@
                             </td>
                             <td>
                                 <span class="gmtime">{{stationLog.prediction|date:'c'}}</span>
+                            </td>
+                            <td>
+                                <span class="gmtime">{{stationLog.goalTarget|date:'c'}}</span>
                             </td>
                         </tr>
                     {% endfor %}

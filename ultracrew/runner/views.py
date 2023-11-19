@@ -87,16 +87,29 @@ def runnerPage(request, name):
         stations = registration.race.stations.all().order_by('distance')
         stationsLog = []
         for station in stations:
-            thisStationLog = {"station": station, "time": None, "prediction": None, "authorized": isCrewOrSelf, "splitPace": None}
+            thisStationLog = {"station": station, "time": None, "prediction": None, "goalTarget": None, "authorized": isCrewOrSelf, "splitPace": None}
             if participant.checkpoints.filter(station=station).exists():
                 thisStationLog["time"] = participant.checkpoints.get(station=station).time
             stationsLog.append(thisStationLog)
         
         # Calculate predicted times based on pace between last two aid stations, if available
+        
+        startTime = datetime.datetime.combine(registration.race.date, registration.race.startTime)
+        if(stationsLog[0]["time"] and stationsLog[0]["station"].distance == 0):
+            startTime = stationsLog[0]["time"]
+            
+        paceForGoal = registration.race.totalDistance / registration.goalTime.total_seconds()
+
         pace = None
-        lastLog = None        
+        lastLog = None
         for i in range(len(stationsLog)):
+            
             thisLog = stationsLog[i]
+
+            deltaSecondsGoal = thisLog["station"].distance / paceForGoal
+            deltaTimeGoal = datetime.timedelta(seconds = deltaSecondsGoal)
+            stationsLog[i]["goalTarget"] = startTime + deltaTimeGoal
+
             if thisLog["time"]:
                 if lastLog:
                     if(thisLog["time"] > lastLog["time"]):

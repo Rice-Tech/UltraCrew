@@ -4,24 +4,24 @@ from django import forms
 from django.contrib.auth.models import User
 
 class RaceForm(ModelForm):
+    name = forms.CharField(label= "Race Name", widget=forms.TextInput(attrs= {'placeholder':'eg. Stone Mill 50 Mile'}))
+    totalDistance = forms.FloatField(label = "Race Distance", widget=forms.NumberInput(attrs = {'placeholder': "Distance in miles", 'min':0.1, 'step':0.1}))
+    startTime = forms.TimeField(label = "Scheduled Start Time", widget= forms.TimeInput(attrs={'type':'time'}))
     class Meta:
         model = Race
-        fields = ['name', 'date']
+        fields = ['name', 'date', 'startTime', 'totalDistance']
         widgets = {
-            'name': forms.NumberInput(attrs={'type': 'text'}),
-            'date': forms.TextInput(attrs={'type': 'date'}),
+            #'name': forms.TextInput(attrs={'type': 'text'}),
+            'date': forms.DateInput(attrs={'type': 'date'}),
         }
 
 class RaceRegistrationForm(ModelForm):
     crew_usernames = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'friend1, friend2'}))
+    goalTime = forms.CharField(label='Goal Time', widget=forms.TextInput(attrs={'class':'html-duration-picker'}))
     class Meta:
         model = RaceRegistration
-        fields = ['minPace', 'maxPace', 'goalTime']
-        widgets = {
-            'minPace': forms.TextInput(attrs={'class':'html-duration-picker'}),
-            'maxPace': forms.TextInput(attrs={'class':'html-duration-picker'}),
-            'goalTime': forms.TextInput(attrs={'class':'html-duration-picker'}),
-        }
+        fields = ['goalTime']
+        
     def clean_crew_usernames(self):
         data = self.cleaned_data['crew_usernames']
         usernames = data.split(',')

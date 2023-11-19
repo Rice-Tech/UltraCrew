@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.core.validators import MinValueValidator
 
 User = settings.AUTH_USER_MODEL
 
@@ -10,7 +11,8 @@ User = settings.AUTH_USER_MODEL
 class Race(models.Model):
     name = models.CharField(max_length=64)
     date = models.DateField()
-
+    startTime = models.TimeField()
+    totalDistance = models.FloatField(validators=[MinValueValidator(0.1)])
 class AidStation(models.Model):
     name = models.CharField(max_length=64)
     distance = models.FloatField()
@@ -25,6 +27,6 @@ class RaceRegistration(models.Model):
     participant = models.ForeignKey(User, on_delete=models.CASCADE, related_name="races")
     crew = models.ManyToManyField(User, related_name="crew_races")
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    minPace = models.DurationField() #pace in minutes per mile
-    maxPace = models.DurationField()
+    #minPace = models.DurationField() #pace in minutes per mile
+    #maxPace = models.DurationField()
     goalTime = models.DurationField() 
