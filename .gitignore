@@ -3,4 +3,4 @@
 *.log
 *.env
 UltraCrew/db.sqlite3
-UltraCrew/runner/migrations
+UltraCrew/runner/migrations/*
