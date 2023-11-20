@@ -12,24 +12,25 @@
             <a class="btn btn-primary collapseButton" data-bs-toggle="collapse" href="#collapse{{race.registration.id}}" role="button" aria-expanded="false" aria-controls="Collapse{{race.registration.race.name}}">Show</a>
             {{race.registration.race.name}}, {{race.registration.race.date}}
         </h4>
-        <div class="collapse" id="collapse{{race.registration.id}}">
+        <div class="collapse tableContainer" id="collapse{{race.registration.id}}">
             <table class="table table-striped"> 
                 <thead>
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Aid Station</th>
-                    <th scope="col">Distance</th>
-                    <th scope="col">Logged Time</th>
-                    <th scope="col">Predicted Time</th>
-                    <th scope="col">Goal Time</th>
+                    <th scope="col">Log</th>
+                    <th scope="col">Predict Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for stationLog in race.stationsLog%}
                         <tr>
                             <th scope="row">{{forloop.counter}}</th>
-                            <td>{{stationLog.station.name}}</td>
-                            <td>{{stationLog.station.distance}}</td>
+                            <td>
+                                {{stationLog.station.name}}
+                                <br>
+                                {{stationLog.station.distance}} miles
+                            </td>
                             <td>
                                 {% if not stationLog.time is None %}
                                     <span class='gmtime'>{{stationLog.time|date:'c'}}</span>
@@ -37,15 +38,16 @@
                                 <!--TODO Confirm that user is crew-->
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        <button type="submit" value="{{stationLog.station.id}}" name="station" onclick="return confirm('Confirm logging {{stationLog.station.name}}?')">Log {{stationLog.station.name}} </button>
+                                        <button type="submit" class="btn btn-primary" value="{{stationLog.station.id}}" name="station" onclick="return confirm('Confirm logging {{stationLog.station.name}}?')">Log {{stationLog.station.name}} </button>
                                     </form>
 
                                 {% endif %}
                             </td>
                             <td>
+                                <span class="bold">Predict:</span>
                                 <span class="gmtime">{{stationLog.prediction|date:'c'}}</span>
-                            </td>
-                            <td>
+                                <br>
+                                <span class="bold">Goal:</span>
                                 <span class="gmtime">{{stationLog.goalTarget|date:'c'}}</span>
                             </td>
                         </tr>
@@ -64,13 +66,11 @@
                 var gmTime = timeElement.innerHTML;
                 var date= new Date(gmTime);
                 const options = {
-                    month: 'numeric',
-                    day: 'numeric',
                     hour: 'numeric',
                     minute: 'numeric'
                   };
                   
-                var localTime = date.toLocaleDateString('en-US', options);
+                var localTime = date.toLocaleTimeString('en-US', options);
                 if(localTime != "Invalid Date")
                 {
                     timeElement.innerHTML = localTime;

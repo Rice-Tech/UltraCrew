@@ -37,8 +37,9 @@ class RaceRegistrationForm(ModelForm):
 
 
 class AidStationForm(ModelForm):
+    distance = forms.FloatField(label = "Distance", widget=forms.NumberInput(attrs = {'placeholder': "Distance in miles", 'min':0.1, 'step':0.1, 'class':"distanceInput"}))
     class Meta:
-        model: AidStation
-        fields: ['name', 'distance']
+        model = AidStation
+        fields = ['name', 'distance']
 
 StationFormSet = modelformset_factory(AidStation, fields= ['name', 'distance'], extra=7, max_num=20)

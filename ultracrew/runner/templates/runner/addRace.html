@@ -7,8 +7,11 @@
     <div id="raceForm">
         <form action="{% url 'runner:addRace' %}" method="POST">
             {% csrf_token %}
-            {{raceform.as_p}}
-            {{regform.as_p}}
+            <div class="raceFormSection">
+                <h4>Race Details</h4>
+                {{raceform.as_p}}
+                {{regform.as_p}}
+            </div>
             <div id="aidStationForms">
                 <h4>Aid Stations</h4>
                 {{stationforms.management_form}}
@@ -19,9 +22,9 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" id="addStationButton">Add Aid Station</button>
-            <button type="button" id="removeStationButton">Remove Aid Station</button>
-            <input type="submit" value="Create Race">
+            <button class="btn btn-outline-success" type="button" id="addStationButton">Add Aid Station</button>
+            <button class="btn btn-outline-success" type="button" id="removeStationButton">Remove Aid Station</button>
+            <input class="btn btn-primary" type="submit" value="Create Race">
         </form> 
     </div>
   

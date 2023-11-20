@@ -1,14 +1,70 @@
 
 {% extends 'layout.html'%}
 {% load static %}
+{% block header%}
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{%static 'img/dadAtStoneMill.jpg'%}" alt="An extremely attractive runner, who coded this website, departs an aid station as his portly father looks on" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{%static 'img/stoneMillaidstation.jpeg'%}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{%static 'img/juneauAidStation.JPG'%}" class="d-block w-100" alt="...">
+        </div>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <h1> Welcome to UltraCrew!</h1>
-    <img src="{%static 'img/dadAtStoneMill.jpg'%}" alt="An extremely attractive runner, who coded this website, departs an aid station as his portly father looks on">
-    <p>The true heroes of ultramarathons are the volunteers and crew. We crazy ultramarathons get do spend the whole 
-        day doing something we love: running. Meanwhile, volunteers and crew sacrifice their day to make it all possible. 
-        The UltraCrew app was designed to make their job a bit eaiser, more enjoyable, and more predictable.
-        UltraCrew makes it simple for crew members to log their runner's progress and offers predictions for when the runner will arrive at
-        the upcoming aid stations. This helps crew ensure that they are there for their runner while givign them insight into how much time they have
-        in between stops. 
-    </p>
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+            
+                <h5>Volunteers and crew are the heroes of ultramarathons.</h3>
+                <p>We crazy ultramarathons get do spend the whole 
+                    day doing something we love: running. Meanwhile, volunteers and crew sacrifice their day to make it all possible. The UltraCrew app was designed to make their job a bit eaiser, more enjoyable, and more predictable.</h5>
+                </p>
+                <p> This app lets crew memebers:</p>
+                <ul>
+                    <li>See time projections based on a runner's goal</li>
+                    <li>Easily log a runner's progress as they arrive at each aid station</li>
+                    <li>Compare a runner's progress with their goal</li>
+                    <li>Know when to arrive at future aid stations based on the runner's last split pace</li>
+                </ul>
+                
+            </div>
+            <div class="col-2">
+                <img class="largeLogo" src="{%static 'img/UltraCrewLogo.png'%}">
+            </div>
+            <div class="col-5">
+                <h5>UltraCrew was my final project for Harvard's CS50x.</h5>
+                <p>This was my first full stack web application outside of the Flask problem sets for CS50. 
+                <ul>
+                    <li>I chose to use Django for the backend to take advantage of its built in admin app and data validatation using models and model forms.</li>
+                    <li>On the front end, I used some Bootstrap componants combined with custom CSS to give a modern yet not cookie cutter look.</li>
+                    <li>I coded some custom Javascript to make the race displays and add race pages more user friendly.</li>
+                    <li>If you or someone you know is running an Ultramarathon, feel free to use this app! However, keep in mind that it is literally the first web app I've coded so it is offered with no warrenty.
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <h5>To get started:</h5>
+                <ul>
+                    <li>Create accounts for the runner and any crew members</li>
+                    <li>Log in as the runner and create a race on the 'Add Race' page, listing all of the aid stations</li>
+                    <li>Share the link from the 'My Races' page with your crew and any family or friends who want to cheer you on.</li>
+                    <li>The link is public, but only the runner or their authenticated crew will be able to log aid station checkpoints.</li>
+                    <li>On race day, the crew may log in with their accounts to log the runner's arrival at each aid station</li>
+                    <li>After the start and one more station have been logged, crew can use the apps predictions to get a rough idea of when to expect their runner to arrive at each station.</li> 
+                </ul>
+    
+            </div>
+            <div class="col-2"></div>
+        </div>
+        <p>I'd like to thank my dad, who has been my crew in every ultra I've run so far and was the inspiration (and intended user) for this app, as well as Professor David Malan, Brian Yu, and the whole CS50 team for their wonderful courses!</p>
+    </div>
 {% endblock %}
