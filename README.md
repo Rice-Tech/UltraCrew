@@ -34,5 +34,5 @@ A few of the desired frontend behaviors required Javascript.
 2. Users can dynamically create or remove aid station forms in addRace.html so that any number of aid stations can be accommodated.
 Currently the javascript is included within the .html templates.
 3. GM time times from the backend are converted into the user's local time zone.
-## Thanks
-I want to especially thank the entire CS50 team, particlarly Professor Malan and Brian Yu. I would also like to thank my dad, who has been my crew for all seven of my ultramarathons and was the inspiration (and intended user) for this app.
+## Acknowledgements
+I want to especially thank the entire CS50 team, particlarly Professor Malan and Brian Yu. I would also like to thank my Dad, who has been my crew for all seven of my ultramarathons and who was the inspiration (and intended user) for this app.
