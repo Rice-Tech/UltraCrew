@@ -18,9 +18,15 @@
 {% endblock %}
 {% block content %}
     <h1> Welcome to UltraCrew!</h1>
+    <div id="logoDiv">
+        <img class="largeLogo" src="{%static 'img/UltraCrewLogo.png'%}">
+        
+    </div>
+    
     <div class="container">
+        <div class='divider'></div>
         <div class="row">
-            <div class="col-5">
+            <div class="col-lg">
             
                 <h5>Volunteers and crew are the heroes of ultramarathons.</h3>
                 <p>We crazy ultramarathons get do spend the whole 
@@ -35,36 +41,28 @@
                 </ul>
                 
             </div>
-            <div class="col-2">
-                <img class="largeLogo" src="{%static 'img/UltraCrewLogo.png'%}">
-            </div>
-            <div class="col-5">
-                <h5>UltraCrew was my final project for Harvard's CS50x.</h5>
-                <p>This was my first full stack web application outside of the Flask problem sets for CS50. 
-                <ul>
-                    <li>I chose to use Django for the backend to take advantage of its built in admin app and data validatation using models and model forms.</li>
-                    <li>On the front end, I used some Bootstrap componants combined with custom CSS to give a modern yet not cookie cutter look.</li>
-                    <li>I coded some custom Javascript to make the race displays and add race pages more user friendly.</li>
-                    <li>If you or someone you know is running an Ultramarathon, feel free to use this app! However, keep in mind that it is literally the first web app I've coded so it is offered with no warrenty.
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2"></div>
-            <div class="col-8">
+            <div class="col-lg">
                 <h5>To get started:</h5>
-                <ul>
-                    <li>Create accounts for the runner and any crew members</li>
-                    <li>Log in as the runner and create a race on the 'Add Race' page, listing all of the aid stations</li>
-                    <li>Share the link from the 'My Races' page with your crew and any family or friends who want to cheer you on.</li>
-                    <li>The link is public, but only the runner or their authenticated crew will be able to log aid station checkpoints.</li>
-                    <li>On race day, the crew may log in with their accounts to log the runner's arrival at each aid station</li>
-                    <li>After the start and one more station have been logged, crew can use the apps predictions to get a rough idea of when to expect their runner to arrive at each station.</li> 
-                </ul>
-    
+                <ol>
+                    <li>Create an account and make sure crew members have created accounts too.</li>
+                    <li>Log in and create a race on the 'Add Race' page.</li>
+                    <li>Share the link from the 'My Races' page with your crew and anyone wants to cheer you on.</li>
+                    <li>On race day, the crew may log in with their accounts to log your arrival at each aid station</li>
+                    <li>After two checkpoints have been logged, crew will be able to see predicted arrival times for each future aid station.</li> 
+                </ol>
             </div>
-            <div class="col-2"></div>
         </div>
-        <p>I'd like to thank my dad, who has been my crew in every ultra I've run so far and was the inspiration (and intended user) for this app, as well as Professor David Malan, Brian Yu, and the whole CS50 team for their wonderful courses!</p>
+        <div class= "divider"></div>
+        <div class="row">
+            <h3>Check out my GitHub, YouTube, and LinkedIn to see more projects like this!</h3>
+            <div class="row">
+                <a class="col" href="https://www.linkedin.com/in/matthew-rice-4784b6276/"><img class="socialLogo" src="{% static 'img/githubLogo.png' %}"> </a>
+                <a class="col" href="https://www.youtube.com/@RiceCodes"><img class="socialLogo" src="{% static 'img/youtubeLogo.png' %}"> </a>
+                <a class="col" href="https://www.linkedin.com/in/matthew-rice-4784b6276/"><img class="socialLogo" src="{% static 'img/linkedinLogo.png' %}"> </a>
+            </div>
+
+
+        </div>
+        
     </div>
 {% endblock %}
