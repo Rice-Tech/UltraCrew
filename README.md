@@ -25,7 +25,7 @@ I tried to structure the Django models, which provide convenient access to a sql
 
 ## Languages Used
 ### Python
-As a Django app, UltraCrew is coded primarily in Python. Data validat
+As a Django app, UltraCrew is coded primarily in Python. I used Django's models for database access and model forms for recieviing and validating data. Pace calculations were also done in Python and the results were provided as dictionaries to the HTML template renderer.
 ### HTML, CSS
 I designed the template html pages using Django's templating system. Within the root template folder I made layout.html which provides a consistent Navbar through all of the pages while the individual apps include the pages that utilize that template. I especially strove in testing to ensure that the site would be responsive on mobile devices since the crew members are expected to track and log their runners using phones.
 ### Javascript
